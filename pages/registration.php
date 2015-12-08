@@ -2,8 +2,10 @@
 
 include_once '../includes/connection.php';
 include_once '../includes/functions.php';
+// include_once '../pages/index.php';
 
-$results = get_all_identifications($dbh);
+// $results = get_all_identifications($dbh);
+$results = get_all_registration($_GET['mac'],$dbh);
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +19,7 @@ $results = get_all_identifications($dbh);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>HighSite Admin Area</title>
+    <title>Routerboard Resources</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -96,12 +98,15 @@ $results = get_all_identifications($dbh);
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li>
-                            <a href="accident.php"><i class="fa fa-dashboard fa-fw"></i>Incident Manager</a>
+                        <li>                   
+                            <a href="registration.php?mac=<?php echo $_GET['mac']; ?>"><i class="fa fa-dashboard fa-fw"></i> RB-Registration Information</a>
                         </li>
                     <li>
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> Pages<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">                          
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="index.php">Home</a>
+                            </li>
                             <li>
                                 <a href="login.html">Login Page</a>
                             </li>
@@ -118,10 +123,11 @@ $results = get_all_identifications($dbh);
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Snakedoctor444 Higsite Information Centre</h1>
+                    <h1 class="page-header">Router-Board Registration Information</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
+            
             <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -136,27 +142,29 @@ $results = get_all_identifications($dbh);
                                             <table class="table table-bordered table-hover table-striped" id="identity_table">
                                                 <thead>
                                                     <tr>
-                                                        <th>RB-Name</th>
-                                                        <th>RB-Mac-Address</th>
-                                                        <th>Radio-Name</th>
-                                                        <th>Frequency</th>
-                                                        <th>Tx-CCQ</th>
-                                                        <th>Rx-CCQ</th>
-                                                        <th>Date-Time</th>
+                                                        <th>Interface</th>
+                                                        <th>Signal Strength</th>
+                                                        <th>Signal Strength Ch0</th>
+                                                        <th>Signal Strength Ch1</th>
+                                                        <th>Rx Rate</th>
+                                                        <th>Tx Rate</th>
+                                                        <th>Tx CCQ</th>
+                                                        <th>Rx CCQ</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php
                                                         for ($k=0; $k < count($results); $k++) {
-                                                            echo "<tr>";
-                                                                echo "<td><a href = 'resources.php?mac=".$results[$k]['rb_mac_address']."'>".$results[$k]['rb_name']."</a></td>";
-                                                                echo "<td>".$results[$k]['rb_mac_address']."</td>";
-                                                                echo "<td>".$results[$k]['radio_name']."</td>";
-                                                                echo "<td>".$results[$k]['frequency']."</td>";
-                                                                echo "<td>".$results[$k]['tx_ccq']."</td>";
-                                                                echo "<td>".$results[$k]['rx_ccq']."</td>";
-                                                                echo "<td>".$results[$k]['date_time']."</td>";
-                                                            echo "</tr>";
+                                                                 echo "<tr>";
+                                                                 echo "<td>".$results[$k]['interface']."</td>";
+                                                                 echo "<td>".$results[$k]['signal_strength']."</td>";
+                                                                 echo "<td>".$results[$k]['signal_strength_ch0']."</td>";
+                                                                 echo "<td>".$results[$k]['signal_strength_ch1']."</td>";
+                                                                 echo "<td>".$results[$k]['rx_rate']."</td>";
+                                                                 echo "<td>".$results[$k]['tx_rate']."</td>";
+                                                                 echo "<td>".$results[$k]['tx_ccq']."</td>";
+                                                                 echo "<td>".$results[$k]['rx_ccq']."</td>";
+                                                             echo "</tr>";
                                                         }
                                                     ?>
                                                 </tbody>
@@ -173,8 +181,6 @@ $results = get_all_identifications($dbh);
                     </div>
                     <!-- /.panel -->
             </div>
-        </div>
-    </div>
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 

@@ -2,8 +2,10 @@
 
 include_once '../includes/connection.php';
 include_once '../includes/functions.php';
+// include_once '../pages/index.php';
 
-$results = get_all_identifications($dbh);
+// $results = get_all_identifications($dbh);
+// $results = get_all_resources($_GET['mac'],$dbh);
 
 ?>
 <!DOCTYPE html>
@@ -17,7 +19,7 @@ $results = get_all_identifications($dbh);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>HighSite Admin Area</title>
+    <title>Routerboard Resources</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -96,12 +98,12 @@ $results = get_all_identifications($dbh);
                             </div>
                             <!-- /input-group -->
                         </li>
-                        <li>
-                            <a href="incident_manager.php"><i class="fa fa-dashboard fa-fw"></i>Incident Manager</a>
+                        <li>                   
+                            <a href="index.php"><i class="fa fa-dashboard fa-fw"></i>Highsite Information Centre</a>
                         </li>
                     <li>
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> Pages<span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">                          
+                        <ul class="nav nav-second-level">
                             <li>
                                 <a href="login.html">Login Page</a>
                             </li>
@@ -118,75 +120,33 @@ $results = get_all_identifications($dbh);
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Snakedoctor444 Higsite Information Centre</h1>
+                    <h1 class="page-header">Highsite Issue Manager</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
-                                    <div>Support Tickets!</div>
-                                </div>
-                            </div>
-                        </div>
-                        <a href="#">
-                            <div class="panel-footer">
-                                <span class="pull-left">View Details</span>
-                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                <div class="clearfix"></div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            
             <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> HighSite Router-Board Information
+                            <i class="fa fa-bar-chart-o fa-fw"></i> Case Manager
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="table-responsive">
-                                        <div class="dataTable_wrapper">
-                                            <table class="table table-bordered table-hover table-striped" id="identity_table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>RB-Name</th>
-                                                        <th>RB-Mac-Address</th>
-                                                        <th>Radio-Name</th>
-                                                        <th>Frequency</th>
-                                                        <th>Tx-CCQ</th>
-                                                        <th>Rx-CCQ</th>
-                                                        <th>Date-Time</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php
-                                                        for ($k=0; $k < count($results); $k++) {
-                                                            echo "<tr>";
-                                                                echo "<td><a href = 'resources.php?mac=".$results[$k]['rb_mac_address']."'>".$results[$k]['rb_name']."</a></td>";
-                                                                echo "<td>".$results[$k]['rb_mac_address']."</td>";
-                                                                echo "<td>".$results[$k]['radio_name']."</td>";
-                                                                echo "<td>".$results[$k]['frequency']."</td>";
-                                                                echo "<td>".$results[$k]['tx_ccq']."</td>";
-                                                                echo "<td>".$results[$k]['rx_ccq']."</td>";
-                                                                echo "<td>".$results[$k]['date_time']."</td>";
-                                                            echo "</tr>";
-                                                        }
-                                                    ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
+										<form role="form" action="incident_logger.php" method="POST">
+											  <div class="form-group">
+											    <label for="email">Email address</label>
+											    <input type="email" class="form-control" name="email" onkeyup="change(this);" placeholder="Email" >
+											  </div>
+
+											  <div class="form-group">
+											  		<textarea name="mytext" class="form-control" rows="6"></textarea>
+											  </div>
+
+											<div id="email"></div>
+											  <button type="submit" class="btn btn-default">Submit</button>
+											</form>							
                                     <!-- /.table-responsive -->
                                 </div>
                                 <!-- /.col-lg-12 (nested) -->
@@ -197,8 +157,6 @@ $results = get_all_identifications($dbh);
                     </div>
                     <!-- /.panel -->
             </div>
-        </div>
-    </div>
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -226,6 +184,10 @@ $results = get_all_identifications($dbh);
                 responsive: true
         });
     });
+
+    function change(value) {
+    	// document.getElementById('email').innerHTML = value.value
+    }
     </script>
 
 </body>

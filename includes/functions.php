@@ -70,6 +70,18 @@
      	$results = $fetch_results->fetchAll();
      	return $results;
 	}
+
+	function store_incident(){
+									$upload = $dbh->prepare('INSERT INTO 
+									incident_tbl (email, incident) 
+									VALUES (:email, :incident)');
+									$results = $upload->execute(array(
+									':email'=> $email,
+									':incident' => $incident))
+
+
+
+	}
 ?>
 
 

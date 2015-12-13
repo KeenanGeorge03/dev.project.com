@@ -5,7 +5,9 @@ include_once '../includes/functions.php';
 // include_once '../pages/index.php';
 
 // $results = get_all_identifications($dbh);
-// $results = get_all_resources($_GET['mac'],$dbh);
+$header = get_incident($_GET['id'],$dbh);
+$detail = get_incident_history($_GET['id'],$dbh);
+$statuses = get_statuses($dbh);
 
 ?>
 <!DOCTYPE html>
@@ -126,37 +128,160 @@ include_once '../includes/functions.php';
             </div>
             
             <div class="row">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bar-chart-o fa-fw"></i> Case Manager
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-										<form role="form" action="incident_logger.php" method="POST">
-											  <div class="form-group">
-											    <label for="email">Email address</label>
-											    <input type="email" class="form-control" name="email" onkeyup="change(this);" placeholder="Email" >
-											  </div>
 
-											  <div class="form-group">
-											  		<textarea name="mytext" class="form-control" rows="6"></textarea>
-											  </div>
 
-											<div id="email"></div>
-											  <button type="submit" class="btn btn-default">Submit</button>
-											</form>							
-                                    <!-- /.table-responsive -->
-                                </div>
-                                <!-- /.col-lg-12 (nested) -->
-                            </div>
-                            <!-- /.row -->
-                        </div>
-                        <!-- /.panel-body -->
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-bar-chart-o fa-fw"></i> Incident Information
                     </div>
-                    <!-- /.panel -->
+                
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-xs-2 col-md-2 col-lg-2">
+                                <strong>Subject:</strong><br />
+                                <strong>Status:</strong><br />
+                                <strong>Date Created:</strong><br />
+                            </div>
+                            <div class="col-xs-10 col-md-10 col-lg-10">
+                                
+                                <?php echo $header[0]['subject']; ?><br />
+                                <?php echo $header[0]['status']; ?><br />
+                                <?php echo $header[0]['date_created']; ?><br />
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion" href="#add-communication">Add Communication</a>
+                                    </h4>
+                                </div>
+                                <div id="add-communication" class="panel-collapse collapse collapse">
+                                    <div class="panel-body">
+                                                    
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                    <form role="form" action="incident_logger.php?id=<?php echo $_GET['id'] ?>" method="POST">
+
+                                                        <input type="hidden" name="logged_in" value="<?php echo $_COOKIE['id']; ?>">
+                                                        <input type="hidden" name="new" value="0">
+                                                        <input type="hidden" name="subject" value="<?php echo $header[0]['subject']; ?>">
+
+                                                        <?php
+                                                            for ($i=0; $i < count($detail); $i++) {  
+                                                                $last_cc = $detail[$i]['cc_recipient'];
+                                                            }
+                                                        ?>
+                                                        
+                                                          <div class="form-group">
+                                                            <label for="email">CC Recipients</label>
+                                                            <input type="text" class="form-control" name="cc_recipient" value="<?php echo $last_cc; ?>" placeholder="CC Recipients" >
+                                                          </div>
+
+                                                          <?php
+                                                            if ($_COOKIE['id'] == 0) {
+                                                                echo '  <div class="form-group">';
+                                                                echo '    <label for="status">Status</label>';
+                                                                echo '    <select class="form-control" name="status">';
+                                                                for ($i=0; $i < count($statuses); $i++) {
+                                                                    $selected = ($statuses[$i]['status'] == $header[0]['status'] ? 'selected' : '');
+                                                                    echo "<option ".$selected." value='".$statuses[$i]['id']."'>".$statuses[$i]['status']."</option>";
+                                                                }
+                                                                echo '    </select>';
+                                                                echo '  </div>';
+                                                            }
+                                                            else {
+                                                                echo '<input type="hidden" name="status" value="'.$header[0]['status'].'">';
+                                                            }
+                                                          ?>
+
+                                                          <div class="form-group">
+                                                                <label for="body">Description</label>
+                                                                <textarea name="body" class="form-control" rows="6" placeholder="Describe your incident" ></textarea>
+                                                          </div>
+
+                                                        <div id="email"></div>
+                                                          <button type="submit" class="btn btn-default">Submit</button>
+                                                        </form>                         
+                                                <!-- /.table-responsive -->
+                                            </div>
+                                            <!-- /.col-lg-12 (nested) -->
+                                        </div>
+                                        <!-- /.row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- .panel-body -->
+                </div>
+
+
+                <!-- /.panel -->
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-clock-o fa-fw"></i> History
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <ul class="timeline">
+
+                            
+                            <?php
+
+                                for ($i=0; $i < count($detail); $i++) { 
+
+                                    $class = ($i % 2 == 0 ? "" : "class='timeline-inverted'");
+
+                                    switch ($detail[$i]['status']) {
+                                        case 'Open':
+                                            $icon = 'fa-folder-open-o';
+                                            $colour = 'danger';
+                                            break;
+                                        case 'Pending':
+                                            $icon = 'fa-folder-open-o';
+                                            $colour = 'warning';
+                                            break;
+                                        case 'Solved':
+                                            $icon = 'fa-folder-open-o';
+                                            $colour = 'success';
+                                            break;
+                                    }
+
+                                    echo '<li '.$class.'>';
+                                    echo '    <div class="timeline-badge '.$colour.'"><i class="fa '.$icon.'"></i>';
+                                    echo '    </div>';
+                                    echo '    <div class="timeline-panel">';
+                                    echo '        <div class="timeline-heading">';
+                                    echo '            <h4 class="timeline-title">'.$header[0]['subject'].'</h4>';
+                                    echo '            <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago and was set to '.$detail[$i]['status'].'</small>';
+                                    echo '            </p>';
+                                    echo '        </div>';
+                                    echo '        <div class="timeline-body">';
+                                    echo '            <p>'.$detail[$i]['body'].'</p>';
+                                    echo '        </div>';
+                                    echo '    </div>';
+                                    echo '</li>';
+                                }
+
+                            ?>
+
+                        </ul>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+
+
+
             </div>
+        </div>
+    </div>
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 

@@ -97,7 +97,7 @@ $results = get_all_identifications($dbh);
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="incident_manager.php"><i class="fa fa-dashboard fa-fw"></i>Incident Manager</a>
+                            <a href="incident_create.php"><i class="fa fa-dashboard fa-fw"></i>Incident Manager</a>
                         </li>
                     <li>
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> Pages<span class="fa arrow"></span></a>
@@ -131,7 +131,7 @@ $results = get_all_identifications($dbh);
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
+                                    <div class="huge">24</div>
                                     <div>Support Tickets!</div>
                                 </div>
                             </div>

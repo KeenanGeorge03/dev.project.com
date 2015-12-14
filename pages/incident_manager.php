@@ -69,7 +69,7 @@ $statuses = get_statuses($dbh);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Belhar HighSite Admin Area</a>
+                <a class="navbar-brand" href="index.php">Belhar HighSite Admin Area</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -259,7 +259,7 @@ $statuses = get_statuses($dbh);
                                     echo '    <div class="timeline-panel">';
                                     echo '        <div class="timeline-heading">';
                                     echo '            <h4 class="timeline-title">'.$header[0]['subject'].'</h4>';
-                                    echo '            <p><small class="text-muted"><i class="fa fa-clock-o"></i> 11 hours ago and was set to '.$detail[$i]['status'].'</small>';
+                                    echo '            <p><small class="text-muted"><i class="fa fa-clock-o"></i>'.$detail[$i]['status'].'</small>';
                                     echo '            </p>';
                                     echo '        </div>';
                                     echo '        <div class="timeline-body">';

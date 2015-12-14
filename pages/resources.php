@@ -67,7 +67,7 @@ $results = get_all_resources($_GET['mac'],$dbh);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Belhar HighSite Admin Area</a>
+                <a class="navbar-brand" href="index.php">Belhar HighSite Admin Area</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">

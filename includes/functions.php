@@ -103,7 +103,7 @@ function store_incident($data, $dbh){
     	':body' => $data['body'],':date_created' => $data['date_created'],':status' => $status)); 
     // header("location:http://dev.project.com/pages/incident_create.php");
 
-    $alerts = $dbh->prepare('SELECT r.email as "requestor",
+    $alerts = $dbh->prepare('SELECT r.username,r.email as "requestor",
 							(SELECT email FROM authentication_tbl where id = 0) as "admin"
 							FROM incident_tbl as i
 
@@ -111,7 +111,8 @@ function store_incident($data, $dbh){
 							authentication_tbl as r on r.id = i.requestor 
 
 							where i.id = :id');
-    $mail_recipients = $alerts->execute(array(":id" => $incident_id));
+    $alerts->execute(array(":id" => $incident_id));
+    $alert_email = $alerts->fetchAll();
 
     $cc = $dbh->prepare('SELECT cc_recipient from incident_detail_tbl
 							where header_id = :id
@@ -120,48 +121,52 @@ function store_incident($data, $dbh){
 							Limit 0,1');
     $cc_recipients = $cc->execute(array(":id" => $incident_id));
 
-    // Please specify your Mail Server - Example: mail.example.com.
-	ini_set("SMTP","ssl:smtp.gmail.com");
+    $status_name = $dbh->prepare('SELECT `status` from incident_status_tbl
+							where id = :id');
+    $status_name->execute(array(":id" => $data['status']));
+    $status_name_retr = $status_name->fetchAll();
 
-	// Please specify an SMTP Number 25 and 8889 are valid SMTP Ports.
-	ini_set("smtp_port","465");
+    require '../phpmailer/PHPMailerAutoload.php';
 
-	// Please specify the return address to use
-	ini_set('sendmail_from', 'keenangrg@gmail.com');
+    $cc_reps = explode(';', $data['cc_recipient']);
 
-    $to = "keenangrg@gmail.com";
-	$subject = "Incident #".$incident_id;
+	$mail = new PHPMailer;
 
-    $body = "
-	<html>
-	<head>
-	<title>HTML email</title>
-	</head>
-	<body>
-	<p>This email contains HTML Tags!</p>
-	<table>
-	<tr>
-	<th>Firstname</th>
-	<th>Lastname</th>
-	</tr>
-	<tr>
-	<td>John</td>
-	<td>Doe</td>
-	</tr>
-	</table>
-	</body>
-	</html>
-	";
+	//$mail->SMTPDebug = 3;                               // Enable verbose debug output
 
-	// Always set content-type when sending HTML email
-	$headers = "MIME-Version: 1.0" . "\r\n";
-	$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+	$mail->isSMTP();                                      // Set mailer to use SMTP
+	$mail->Host = 'smtp.gmail.com';  // Specify main and backup SMTP servers
+	$mail->SMTPAuth = true;                               // Enable SMTP authentication
+	$mail->Username = 'keenangrg@gmail.com';                 // SMTP username
+	$mail->Password = 'Charnte#1';                           // SMTP password
+	$mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+	$mail->Port = 587;                                    // TCP port to connect to
 
-	// More headers
-	$headers .= 'From: <keenangrg@gmail.com>' . "\r\n";
-	// $headers .= 'Cc: myboss@example.com' . "\r\n";
+	$mail->setFrom('keenangrg@gmail.com', 'Keenan George Highsite Administrator');
+	$mail->addAddress($alert_email[0]['email'], $alert_email[0]['username']);     // Add a recipient
+	$mail->addReplyTo('no-reply@example.com', 'Information');
+	
+	for ($i=0; $i < count($cc_reps); $i++) { 
+		$mail->addCC($cc_reps[$i]);
+	}
 
-    mail($to,$subject,$body,$headers);
+	$mail->isHTML(true);                                  // Set email format to HTML
+
+	$mail->Subject = 'Do Not Reply: Incident #'.$incident_id.", subject: ".$data['subject'];
+	$mail->Body    = 'Good day <br /> this is a notification email to let you know that incident #'.$incident_id.' has been updated.
+						<br /><br />
+						<strong>Status: </strong>'.($status_name_retr[0]['status'] != "" ? $status_name_retr[0]['status'] : 'New').'<hr />
+						<h4>New Message:</h4>
+						'.$data['body'].'<br /><hr /><br />
+						For further details, visit: <a href="http://dev.project.com/pages/incident_manager.php?id='.$incident_id.'">'.$data['subject'].'</a>';
+	$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+	if(!$mail->send()) {
+	    echo 'Message could not be sent.';
+	    echo 'Mailer Error: ' . $mail->ErrorInfo;
+	} else {
+	    echo 'Message has been sent';
+	}
 
     return $incident_id;
 }
@@ -216,7 +221,36 @@ function get_statuses($dbh)  {
  	return $results;
 }
 
+function get_open_tickets($dbh){
 
+	$open_tickets = $dbh->prepare('SELECT COUNT(*) as count
+								   FROM incident_detail_tbl
+								   WHERE status = 0');
+	$open_tickets->execute();
+	$results_open_tickets = $open_tickets->fetchAll();
+	return $results_open_tickets;
+
+}
+function get_pending_tickets($dbh){
+
+	$pending_tickets = $dbh->prepare('SELECT COUNT(*) as count
+								   FROM incident_detail_tbl
+								   WHERE status = 1');
+	$pending_tickets->execute();
+	$results_pending_tickets = $pending_tickets->fetchAll();
+	return $results_pending_tickets;
+
+}
+function get_closed_tickets($dbh){
+
+	$closed_tickets = $dbh->prepare('SELECT COUNT(*) as count
+								   FROM incident_detail_tbl
+								   WHERE status = 2');
+	$closed_tickets->execute();
+	$results_closed_tickets = $closed_tickets->fetchAll();
+	return $results_closed_tickets;
+
+}
 ?>
 
 

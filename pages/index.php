@@ -4,6 +4,9 @@ include_once '../includes/connection.php';
 include_once '../includes/functions.php';
 
 $results = get_all_identifications($dbh);
+$results_open_tickets = get_open_tickets($dbh);
+$results_pending_tickets = get_pending_tickets($dbh);
+$results_closed_tickets = get_closed_tickets($dbh);
 
 ?>
 <!DOCTYPE html>
@@ -65,7 +68,7 @@ $results = get_all_identifications($dbh);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Belhar HighSite Admin Area</a>
+                <a class="navbar-brand" href="index.php">Belhar HighSite Admin Area</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -124,28 +127,81 @@ $results = get_all_identifications($dbh);
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
-                                    <i class="fa fa-comments fa-5x"></i>
+                                    <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">24</div>
-                                    <div>Support Tickets!</div>
+                                    <div class="huge"><?php 
+                                    for ($k=0; $k < count($results_open_tickets); $k++){
+                                        echo $results_open_tickets[$k]['count'];}?>
+                                        </div>
+                                    <div>New Open Support Tickets!</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                   <!--      <a href="#">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                                 <div class="clearfix"></div>
                             </div>
-                        </a>
+                        </a> -->
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php 
+                                    for ($k=0; $k < count($results_pending_tickets); $k++){
+                                        echo $results_pending_tickets[$k]['count'];}?></div>
+                                    <div>Pending Support Tickets!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a> -->
+                    </div>
+                </div>
+
+             <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge"><?php 
+                                    for ($k=0; $k < count($results_closed_tickets); $k++){
+                                        echo $results_closed_tickets[$k]['count'];}?></div>
+                                    <div>Closed Support Tickets!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <a href="#">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a> -->
                     </div>
                 </div>
             </div>
+
             <div class="row">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -199,6 +255,7 @@ $results = get_all_identifications($dbh);
             </div>
         </div>
     </div>
+    
     <!-- jQuery -->
     <script src="../bower_components/jquery/dist/jquery.min.js"></script>
 

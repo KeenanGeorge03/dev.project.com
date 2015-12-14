@@ -131,7 +131,7 @@ $statuses = get_statuses($dbh);
 
 
 
-                <div class="panel panel-default">
+                <div class="panel panel-primary">
                     <div class="panel-heading">
                         <i class="fa fa-bar-chart-o fa-fw"></i> Incident Information
                     </div>
@@ -155,7 +155,7 @@ $statuses = get_statuses($dbh);
                         <hr />
 
                         <div class="panel-group" id="accordion">
-                            <div class="panel panel-default">
+                            <div class="panel panel-success">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <a data-toggle="collapse" data-parent="#accordion" href="#add-communication">Add Communication</a>
@@ -223,7 +223,7 @@ $statuses = get_statuses($dbh);
 
 
                 <!-- /.panel -->
-                <div class="panel panel-default">
+                <div class="panel panel-danger">
                     <div class="panel-heading">
                         <i class="fa fa-clock-o fa-fw"></i> History
                     </div>
@@ -259,7 +259,7 @@ $statuses = get_statuses($dbh);
                                     echo '    <div class="timeline-panel">';
                                     echo '        <div class="timeline-heading">';
                                     echo '            <h4 class="timeline-title">'.$header[0]['subject'].'</h4>';
-                                    echo '            <p><small class="text-muted"><i class="fa fa-clock-o"></i>'.$detail[$i]['status'].'</small>';
+                                    echo '            <p><small class="text-muted">'.$detail[$i]['status'].'</small>';
                                     echo '            </p>';
                                     echo '        </div>';
                                     echo '        <div class="timeline-body">';

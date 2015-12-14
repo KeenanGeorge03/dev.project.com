@@ -91,7 +91,7 @@ $results = get_all_resources($_GET['mac'],$dbh);
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
+                                <button class="btn btn-info" type="button">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -126,7 +126,7 @@ $results = get_all_resources($_GET['mac'],$dbh);
             </div>
             
             <div class="row">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> HighSite Router-Board Information
                         </div>
@@ -139,13 +139,13 @@ $results = get_all_resources($_GET['mac'],$dbh);
                                             <table class="table table-bordered table-hover table-striped" id="identity_table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Uptime</th>
-                                                        <th>Version</th>
-                                                        <th>Build Time</th>
-                                                        <th>CPU MIPS</th>
-                                                        <th>CPU LOAD</th>
-                                                        <th>Architecture Name</th>
-                                                        <th>Board Name</th>
+                                                        <th class ="success">Uptime</th>
+                                                        <th class ="success">Version</th>
+                                                        <th class ="success">Build Time</th>
+                                                        <th class ="success">CPU MIPS</th>
+                                                        <th class ="success">CPU LOAD</th>
+                                                        <th class ="success">Architecture Name</th>
+                                                        <th class ="success">Board Name</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

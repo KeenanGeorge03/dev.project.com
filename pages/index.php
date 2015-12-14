@@ -92,7 +92,7 @@ $results_closed_tickets = get_closed_tickets($dbh);
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
+                                <button class="btn btn-info" type="button">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -106,7 +106,7 @@ $results_closed_tickets = get_closed_tickets($dbh);
                         <a href="#"><i class="fa fa-files-o fa-fw"></i> Pages<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">                          
                             <li>
-                                <a href="login.html">Login Page</a>
+                                <a href="login.php">Login Page</a>
                             </li>
                         </ul>
                         <!-- /.nav-second-level -->
@@ -203,7 +203,7 @@ $results_closed_tickets = get_closed_tickets($dbh);
             </div>
 
             <div class="row">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> HighSite Router-Board Information
                         </div>
@@ -216,13 +216,13 @@ $results_closed_tickets = get_closed_tickets($dbh);
                                             <table class="table table-bordered table-hover table-striped" id="identity_table">
                                                 <thead>
                                                     <tr>
-                                                        <th>RB-Name</th>
-                                                        <th>RB-Mac-Address</th>
-                                                        <th>Radio-Name</th>
-                                                        <th>Frequency</th>
-                                                        <th>Tx-CCQ</th>
-                                                        <th>Rx-CCQ</th>
-                                                        <th>Date-Time</th>
+                                                        <th class ="success">Router-Name</th>
+                                                        <th class ="success">Router Mac-Address</th>
+                                                        <th class ="success">Radio-Name</th>
+                                                        <th class ="success">Frequency</th>
+                                                        <th class ="success">Tx-CCQ</th>
+                                                        <th class ="success">Rx-CCQ</th>
+                                                        <th class ="success">Date-Time</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

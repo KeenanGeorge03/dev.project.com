@@ -91,7 +91,7 @@ $results = get_all_registration($_GET['mac'],$dbh);
                             <div class="input-group custom-search-form">
                                 <input type="text" class="form-control" placeholder="Search...">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">
+                                <button class="btn btn-info" type="button">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </span>
@@ -129,7 +129,7 @@ $results = get_all_registration($_GET['mac'],$dbh);
             </div>
             
             <div class="row">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> HighSite Router-Board Information
                         </div>
@@ -142,14 +142,14 @@ $results = get_all_registration($_GET['mac'],$dbh);
                                             <table class="table table-bordered table-hover table-striped" id="identity_table">
                                                 <thead>
                                                     <tr>
-                                                        <th>Interface</th>
-                                                        <th>Signal Strength</th>
-                                                        <th>Signal Strength Ch0</th>
-                                                        <th>Signal Strength Ch1</th>
-                                                        <th>Rx Rate</th>
-                                                        <th>Tx Rate</th>
-                                                        <th>Tx CCQ</th>
-                                                        <th>Rx CCQ</th>
+                                                        <th class ="success">Interface</th>
+                                                        <th class ="success">Signal Strength</th>
+                                                        <th class ="success">Signal Strength Ch0</th>
+                                                        <th class ="success">Signal Strength Ch1</th>
+                                                        <th class ="success">Rx Rate</th>
+                                                        <th class ="success">Tx Rate</th>
+                                                        <th class ="success">Tx CCQ</th>
+                                                        <th class ="success">Rx CCQ</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>

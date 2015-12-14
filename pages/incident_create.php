@@ -67,7 +67,7 @@ include_once '../includes/functions.php';
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Belhar HighSite Admin Area</a>
+                <a class="navbar-brand" href="index.php">Belhar HighSite Admin Area</a>
             </div>
             <!-- /.navbar-header -->
             <ul class="nav navbar-top-links navbar-right">
@@ -126,7 +126,7 @@ include_once '../includes/functions.php';
             </div>
             
             <div class="row">
-                    <div class="panel panel-default">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <i class="fa fa-bar-chart-o fa-fw"></i> Case Manager
                         </div>
@@ -154,7 +154,7 @@ include_once '../includes/functions.php';
 											  </div>
 
 											<div id="email"></div>
-											  <button type="submit" class="btn btn-default">Submit</button>
+											  <button type="submit" class="btn btn-primary">Submit</button>
 											</form>							
                                     <!-- /.table-responsive -->
                                 </div>
